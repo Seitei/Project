@@ -12,7 +12,7 @@ import starling.utils.AssetManager;
 
 import utils.Resources;
 
-[SWF(backgroundColor="#1d1d1d", frameRate="60", width="200", height="400")]
+[SWF(backgroundColor="#1d1d1d", frameRate="60", width="640", height="960")]
 public class Main extends Sprite
 {
 
@@ -52,8 +52,8 @@ public class Main extends Sprite
 
         assets.loadQueue(function(ratio:Number):void
         {
-            if (ratio == 1)
-            {
+            if (ratio == 1) {
+
                 onComplete(assets);
             }
         });
@@ -64,6 +64,8 @@ public class Main extends Sprite
         Resources.assets = assets;
         Resources.stageWidth = stage.stageWidth;
         Resources.stageHeight = stage.stageHeight;
+
+        Root.getInstance().start();
 
     }
 
