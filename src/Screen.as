@@ -6,11 +6,12 @@ import starling.display.Sprite;
 public class Screen extends Sprite {
 
     private var _elements:Dictionary;
-    private var _interactions:Array;
+    private var _interactions:Dictionary;
 
-    public function Screen() {
+    public function Screen(screenName:String) {
 
-        _interactions = new Array();
+        name = screenName;
+        _interactions = new Dictionary();
         _elements = new Dictionary();
 
     }
@@ -24,14 +25,19 @@ public class Screen extends Sprite {
 
     public function addInteraction(interaction:Interaction):void {
 
-        interaction.setElements(_elements);
         _interactions[interaction.name] = interaction;
-
 
     }
 
+    public function executeInteraction(interaction:String):void {
+        _interactions[interaction].execute();
+    }
 
+    public function getElements():Dictionary {
 
+        return _elements;
+
+    }
 
 
 

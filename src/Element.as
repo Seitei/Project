@@ -40,8 +40,6 @@ public class Element extends Sprite {
         }
     }
 
-
-
     /////////////////////////////////////////////////////////////////////////
 
     public function set color(value:String):void {

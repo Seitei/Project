@@ -8,20 +8,18 @@ public class Interaction {
 
     private var _elements:Array;
     private var _iBlocks:Dictionary;
+    private var _screen:String;
 
-    public function Interaction(properties:Object) {
+    public function Interaction(screen:String, properties:Object) {
 
         _properties = properties;
         _elements = _properties["elements"];
         _iBlocks = new Dictionary();
 
+        _screen = screen;
         _name = _properties["name"];
 
         build(0);
-
-    }
-
-    public function setElements():void {
 
     }
 
@@ -49,7 +47,7 @@ public class Interaction {
 
     private function createNewIBlock(data:Object):IBlock {
 
-        var iBlock:IBlock = new IBlock(data);
+        var iBlock:IBlock = new IBlock(_screen, data);
 
         _iBlocks[data.id] = iBlock;
 
@@ -67,6 +65,7 @@ public class Interaction {
     public function execute(id:int = 0):void {
 
         var iBlock:IBlock = _iBlocks[id];
+        iBlock.execute();
 
         var branches:Array = iBlock.getBranches();
 

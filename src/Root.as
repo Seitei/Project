@@ -30,6 +30,11 @@ public class Root extends Sprite {
         screen = Deserealizer.createScreen(byteArray);
         addChild(screen);
 
+        Operators.getInstance().addScreen(screen);
+
+        screen.executeInteraction("1_1");
+
+
     }
 
     public static function getInstance():Root {
