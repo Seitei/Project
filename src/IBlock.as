@@ -8,6 +8,8 @@ import starling.events.KeyboardEvent;
 
 import utils.Constants;
 
+import utils.Constants;
+
 public class IBlock {
 
     private static var conditionSymbols:Array =      ["==", "!=", "||", "&&", "<", ">", "<=", ">="];
@@ -137,18 +139,21 @@ public class IBlock {
             return null;
         }
 
-        if(_subType == Constants.BRANCH_EXCLUSIVE){
+        if(_type == Constants.BRANCH){
 
-            _branches = _originalBranches;
+            if(_subType == Constants.BRANCH_EXCLUSIVE){
 
-            for (var i:int = 0; i < _branches.length; i++) {
+                _branches = _originalBranches;
 
-                var iBlockID:String = _branches[i];
-                result = _interaction.getIBlock(_branches[i]).execute();
+                for (var i:int = 0; i < _branches.length; i++) {
 
-                if(result == true){
-                    _branches = [iBlockID];
-                    break;
+                    var iBlockID:String = _branches[i];
+                    result = _interaction.getIBlock(_branches[i]).execute();
+
+                    if(result == true){
+                        _branches = [iBlockID];
+                        break;
+                    }
                 }
             }
 
