@@ -39,6 +39,12 @@ public class Screen extends Sprite {
 
     }
 
+    public function getElement(elementName:String):Element {
+
+        return _elements[elementName];
+
+    }
+
 
 
 

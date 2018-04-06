@@ -9,17 +9,20 @@ public class Interaction {
     private var _elements:Array;
     private var _iBlocks:Dictionary;
     private var _screen:String;
+    private var _trigger:Object;
 
     public function Interaction(screen:String, properties:Object) {
 
         _properties = properties;
         _elements = _properties["elements"];
         _iBlocks = new Dictionary();
-
+        _trigger = _properties["trigger"];
         _screen = screen;
         _name = _properties["name"];
 
-        build(0);
+        _properties["iBlocks"]["trigger"]["trigger"] = _trigger;
+
+        build("trigger");
 
     }
 
@@ -27,7 +30,15 @@ public class Interaction {
         return _name;
     }
 
-    public function build(id:int):void {
+    public function getTrigger():Object {
+        return _trigger;
+    }
+
+    public function getScreen():String {
+        return _screen;
+    }
+
+    public function build(id:String):void {
 
         var iBlock:IBlock = createNewIBlock(_properties["iBlocks"][id]);
 
@@ -37,9 +48,9 @@ public class Interaction {
             build(branches[i]);
         }
 
-        var nextId:int = iBlock.getNext();
+        var nextId:String = iBlock.getNext();
 
-        if(nextId != -1){
+        if(nextId != "-1"){
             build(nextId);
         }
 
@@ -58,11 +69,7 @@ public class Interaction {
 
 
 
-
-
-
-
-    public function execute(id:int = 0):void {
+    public function execute(id:String = "trigger"):void {
 
         var iBlock:IBlock = _iBlocks[id];
         iBlock.execute();
@@ -73,9 +80,9 @@ public class Interaction {
             execute(branches[i]);
         }
 
-        var nextId:int = iBlock.getNext();
+        var nextId:String = iBlock.getNext();
 
-        if(nextId != -1){
+        if(nextId != "-1"){
             execute(nextId);
         }
 

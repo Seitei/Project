@@ -22,12 +22,16 @@ public class Deserealizer {
 
         }
 
+        ScreenManager.getInstance().addScreen(screen);
+
         for (var j:int = 0; j < interactions.length; j++) {
 
             var interaction:Interaction = new Interaction(screen.name, interactions[j].properties);
+            InteractionManager.getInstance().addInteraction(interaction);
             screen.addInteraction(interaction);
 
         }
+
 
         return screen;
 

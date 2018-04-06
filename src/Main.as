@@ -12,7 +12,7 @@ import starling.utils.AssetManager;
 
 import utils.Resources;
 
-[SWF(backgroundColor="#1d1d1d", frameRate="60", width="640", height="960")]
+[SWF(backgroundColor="#1d1d1d", frameRate="60", width="1000", height="600")]
 public class Main extends Sprite
 {
 

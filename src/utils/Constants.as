@@ -17,7 +17,7 @@ package utils
         public static const INTERACTION:String = "Interaction";
 
         //IBLOCK TYPE
-        public static const BEGIN:String = "begin";
+        public static const TRIGGER:String = "trigger";
         public static const BLANK:String = "blank";
         public static const PROPERTY_UPDATE:String = "propertyUpdate";
         public static const CONDITION:String = "condition";
@@ -27,6 +27,11 @@ package utils
         //IBLOCK SUBTYPE
         public static const BRANCH_EXCLUSIVE:String = "branchExclusive";
         public static const BRANCH_MULTIPLE:String = "branchMultiple";
+
+        //TRIGGER TYPES
+        public static const KEYBOARD:String = "keyboard";
+        public static const MOUSE:String = "mouse";
+
 
     }
 }

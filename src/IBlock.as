@@ -1,5 +1,12 @@
 package {
+import feathers.utils.display.stageToStarling;
+
 import flash.utils.Dictionary;
+
+import starling.core.Starling;
+import starling.events.KeyboardEvent;
+
+import utils.Constants;
 
 public class IBlock {
 
@@ -9,14 +16,15 @@ public class IBlock {
 
     private static var branchSymbols:Array = ["branchExclusive", "branchMultiple"];
 
-    private var _id:int;
+    private var _id:String;
     private var _branches:Array;
-    private var _next:int;
+    private var _next:String;
     private var _elements:Array;
     private var _code:String;
     private var _executionArray:Dictionary;
     private var _type:String;
     private var _screen:String;
+    private var _trigger:Object;
 
     public function IBlock(screen:String, properties:Object) {
 
@@ -25,28 +33,26 @@ public class IBlock {
         _branches = properties.branches;
         _code = properties.code;
         _type = properties.type;
-
-        _type = "condition";
-        _code = "5 + 7 == 10"
-
         _screen = screen;
+        _trigger = properties.trigger;
 
-        processCode();
+        _elements = new Array();
+        _executionArray = new Dictionary();
 
+        if(_type != Constants.TRIGGER){
+            processCode();
+        }
     }
 
     public function getBranches():Array {
         return _branches;
     }
 
-    public function getNext():int {
+    public function getNext():String {
         return _next;
     }
 
     private function processCode():void {
-
-        _elements = new Array();
-        _executionArray = new Dictionary();
 
         var arrayCheck:Array = _type == "condition" ? conditionSymbols : propertyUpdateSymbols;
 
@@ -72,7 +78,6 @@ public class IBlock {
         _executionArray["left"] = processArray(leftArray);
         _executionArray["right"] = processArray(rightArray);
 
-
     }
 
     private function processArray(array:Array):Array {
@@ -93,14 +98,10 @@ public class IBlock {
 
             }
             else if(operationsUpdateSymbols.indexOf(array[i]) != -1) {
-
                 object = array[i];
-
             }
             else {
-
                 object = {value: array[i]};
-
             }
 
             resultArray.push(object);
@@ -113,25 +114,7 @@ public class IBlock {
 
     public function execute():void {
 
-        /*
-
-        var left:Array  = [{element: "element0", property: "x"}];
-        var right:Array = [{value: 5}];
-
-        var left:Array  = [{value: 3}];
-        var left:Array  = [{value: 3}, "+", {value: 5}];
-        var right:Array = [{value: 3}];
-
-
-        var left:Array  = [{element: "element0", property: "x"}, "+", {value: 5}];
-        var operator:String = "==";
-        var right:Array = [{value: 5}];
-
-        */
-
-        var result:Object = Operators.getInstance().runOperator(_screen, _executionArray["left"], _executionArray["operator"], _executionArray["right"]);
-
-        trace(result);
+        Operators.getInstance().runOperator(_screen, _executionArray["left"], _executionArray["operator"], _executionArray["right"]);
 
     }
 

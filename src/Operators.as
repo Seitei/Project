@@ -3,10 +3,6 @@ import flash.utils.Dictionary;
 
 public class Operators {
 
-    private static var _conditionSymbols:Array =      ["==", "!=", "||", "&&", "<", ">", "<=", ">="];
-    private static var _propertyUpdateSymbols:Array = ["=", "+=", "-=", "++", "--"];
-    private static var _operationsUpdateSymbols:Array = ["+", "-", "/", "*"];
-
     private static var _instance:Operators;
 
     private var _screenElements:Dictionary;
@@ -24,8 +20,10 @@ public class Operators {
         _screenElements = new Dictionary();
 
         _operators["+="] = plusEqual;
+        _operators["-="] = minusEqual;
         _operators["=="] = equalEqual;
         _operators["+"]  = plus;
+        _operators["++"]  = plusPlus;
 
     }
 
@@ -41,24 +39,30 @@ public class Operators {
 
     public function runOperator(screen:String, left:Array, operator:String, right:Array):Object {
 
-        var newLeft:Object = left;
-        var newRight:Object = right;
-
-        if(newLeft.length > 1){
-            newLeft = _operators[newLeft[1]](screen, newLeft[0], newLeft[2]);
-        }
-        else {
-            newLeft = left[0];
+        if(!operator){
+            return null;
         }
 
-        if(newRight.length > 1){
-            newRight = _operators[newRight[1]](screen, newRight[0], newRight[2]);
-        }
-        else {
-            newRight = right[0];
+        var newLeftValue:Object = left[0];
+        var newRightValue:Object = right[0];
+
+        while(left.length > 1){
+
+            newLeftValue = (_operators[left[1]](screen, left[0], left[2]));
+            left.splice(0, 3);
+            left.insertAt(0, newLeftValue);
+
         }
 
-        return _operators[operator](screen, newLeft, newRight);
+        while(right.length > 1){
+
+            newRightValue = (_operators[right[1]](screen, right[0], right[2]));
+            right.splice(0, 3);
+            right.insertAt(0, newRightValue);
+
+        }
+
+        return _operators[operator](screen, newLeftValue, newRightValue);
 
     }
 
@@ -110,7 +114,7 @@ public class Operators {
 
     }
 
-    public function plusEqual(screen:String, value1:Object, value2:Object):Object {
+    public function plusEqual(screen:String, value1:Object, value2:Object):void {
 
         var nValue2:Object;
 
@@ -123,7 +127,20 @@ public class Operators {
 
         _screenElements[screen][value1.element][value1.property] += Number(nValue2);
 
-        return _screenElements[screen][value1.element][value1.property];
+    }
+
+    public function minusEqual(screen:String, value1:Object, value2:Object):void {
+
+        var nValue2:Object;
+
+        if(value2["element"]){
+            nValue2 = _screenElements[screen][value2.element][value2.property];
+        }
+        else {
+            nValue2 = value2["value"];
+        }
+
+        _screenElements[screen][value1.element][value1.property] -= Number(nValue2);
 
     }
 
@@ -136,11 +153,11 @@ public class Operators {
 
 
 
+    public function plusPlus(screen:String, value1:Object, value2:Object):void {
 
-
-    public function plusPlus(screen:String, element:String):void {
-
-        _screenElements[screen][element] ++;
+        trace(_screenElements[screen][value1.element][value1.property]);
+        _screenElements[screen][value1.element][value1.property] ++;
+        trace(_screenElements[screen][value1.element][value1.property]);
 
     }
 
