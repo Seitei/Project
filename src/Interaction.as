@@ -38,6 +38,10 @@ public class Interaction {
         return _screen;
     }
 
+    public function getIBlock(id:String):IBlock {
+        return _iBlocks[id];
+    }
+
     public function build(id:String):void {
 
         var iBlock:IBlock = createNewIBlock(_properties["iBlocks"][id]);
@@ -53,21 +57,17 @@ public class Interaction {
         if(nextId != "-1"){
             build(nextId);
         }
-
     }
 
     private function createNewIBlock(data:Object):IBlock {
 
-        var iBlock:IBlock = new IBlock(_screen, data);
+        var iBlock:IBlock = new IBlock(_screen, this, data);
 
         _iBlocks[data.id] = iBlock;
 
         return iBlock;
 
     }
-
-
-
 
     public function execute(id:String = "trigger"):void {
 

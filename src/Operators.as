@@ -19,9 +19,13 @@ public class Operators {
 
         _screenElements = new Dictionary();
 
+        _operators["=="] = equalEqual;
+        _operators["<"] = lesserThan;
+        _operators[">"] = greaterThan;
+
+
         _operators["+="] = plusEqual;
         _operators["-="] = minusEqual;
-        _operators["=="] = equalEqual;
         _operators["+"]  = plus;
         _operators["++"]  = plusPlus;
 
@@ -38,10 +42,6 @@ public class Operators {
 
 
     public function runOperator(screen:String, left:Array, operator:String, right:Array):Object {
-
-        if(!operator){
-            return null;
-        }
 
         var newLeftValue:Object = left[0];
         var newRightValue:Object = right[0];
@@ -86,10 +86,55 @@ public class Operators {
             nValue2 = value2["value"];
         }
 
-        return nValue1 == nValue2;
+        return Number(nValue1) == Number(nValue2);
 
     }
 
+    public function lesserThan(screen:String, value1:Object, value2:Object):Boolean {
+
+        var nValue1:Object;
+        var nValue2:Object;
+
+        if(value1["element"]){
+            nValue1 = _screenElements[screen][value1.element][value1.property];
+        }
+        else {
+            nValue1 = value1["value"];
+        }
+
+        if(value2["element"]){
+            nValue2 = _screenElements[screen][value2.element][value2.property];
+        }
+        else {
+            nValue2 = value2["value"];
+        }
+
+        return Number(nValue1) < Number(nValue2);
+
+    }
+
+    public function greaterThan(screen:String, value1:Object, value2:Object):Boolean {
+
+        var nValue1:Object;
+        var nValue2:Object;
+
+        if(value1["element"]){
+            nValue1 = _screenElements[screen][value1.element][value1.property];
+        }
+        else {
+            nValue1 = value1["value"];
+        }
+
+        if(value2["element"]){
+            nValue2 = _screenElements[screen][value2.element][value2.property];
+        }
+        else {
+            nValue2 = value2["value"];
+        }
+
+        return Number(nValue1) > Number(nValue2);
+
+    }
 
     public function plus(screen:String, value1:Object, value2:Object):Object {
 
@@ -113,6 +158,20 @@ public class Operators {
         return {value: Number(nValue1) + Number(nValue2)};
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function plusEqual(screen:String, value1:Object, value2:Object):void {
 
@@ -155,11 +214,19 @@ public class Operators {
 
     public function plusPlus(screen:String, value1:Object, value2:Object):void {
 
-        trace(_screenElements[screen][value1.element][value1.property]);
         _screenElements[screen][value1.element][value1.property] ++;
-        trace(_screenElements[screen][value1.element][value1.property]);
 
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
